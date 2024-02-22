@@ -34,6 +34,8 @@ function submit() {
 onMounted(async () => {
   await store.getUsers();
 });
+
+const checking =ref(false)
 </script>
 
 <template>
@@ -71,9 +73,9 @@ onMounted(async () => {
           name="Select"
         />
         <DynamicComponent
-          v-if="item.compName === 'Input'"
+          v-else
           v-model="form[item.id]"
-          class="w-[200px]"
+          class="!w-[300px]"
           :placeholder="item.placeholder"
           :type="item.compType"
           :name="item.compName"

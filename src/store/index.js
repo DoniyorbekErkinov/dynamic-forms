@@ -58,9 +58,9 @@ export const useMainStore = defineStore("Main", () => {
     },
     {
       id: "birthDate",
-      compName: "Input",
+      compName: "DatePicker",
       compType: "date", // if only compName is Input else empty string ('')
-      placeholder: "Date", // if compName is Input => string ('') else if it is select it is used as title key
+      placeholder: "dd-mm-yyyy", // if compName is Input => string ('') else if it is select it is used as title key
       value: "", // if it is input empty string, if it is select it must be array
       valuekey: "",
     },

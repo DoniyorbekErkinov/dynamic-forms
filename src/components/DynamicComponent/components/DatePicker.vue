@@ -1,0 +1,28 @@
+<template>
+    <VueDatePicker :model-value="date" @update:model-value="handleDate" :enable-time-picker="false" :placeholder="props.placeholder"></VueDatePicker>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  const props = defineProps({
+        placeholder: {
+            type: String,
+            default: ''
+        },
+        modelValue: {
+    type: String,
+    default: "",
+  },
+  })
+  const emit = defineEmits(['update:modelValue'])
+  const date = ref()
+  function handleDate(val) {
+        date.value = val
+        const day = String(date.value.getDate()).padStart(2, '0');
+  const month = String(date.value.getMonth() + 1).padStart(2, '0'); // January is 0
+  const year = date.value.getFullYear();
+
+  const formattedDate = `${day}.${month}.${year}`;
+        emit('update:modelValue', formattedDate)
+  }
+  </script>
