@@ -67,7 +67,7 @@
   </template>
   
   <script setup>
-  import { ref, watch} from "vue";
+  import { ref, watch, inject} from "vue";
   import {
     Listbox,
     ListboxLabel,
@@ -88,11 +88,16 @@
     placeholder: {
       type: String,
       default: ''
+    },
+    keyItem: {
+      type: String,
+      default: ''
     }
   });
   const emit = defineEmits(['itemSelected', 'blur']);
   
-  const selectedItem = ref('');
+  const item = inject(props.keyItem);
+  const selectedItem = ref(item)
   watch(() => props.list, (newVal) => {
       selectedItem.value = ''
   })
@@ -100,7 +105,4 @@
     selectedItem.value = item;
     emit('itemSelected', item.id);
   }
-  function clearSelectedItem() {
-  selectedItem.value = ''; // Clear selectedItem
-};
   </script>

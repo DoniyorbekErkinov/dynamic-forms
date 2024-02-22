@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted, watch, onBeforeMount } from "vue";
+import { ref, onMounted, watch, onBeforeMount, provide } from "vue";
 import { useMainStore } from "./store/index";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 const store = useMainStore();
+const shofcaseData = ref({})
 const form = ref({
   username: "",
   lastname: "",
@@ -32,8 +33,10 @@ const rules = {
     required
   },
 }
+for (const i in form.value) {
+    provide(`${i}`, '')
+  }
 for (const i of store.formList) {
-    console.log(i);
     if (!i.isRequired) {
       rules[i.id] = {  }      
     }
@@ -58,6 +61,12 @@ const showResult = ref(false);
 async function submit() {
   const isFormCorrect = await v$.value.$validate()
   if (isFormCorrect) {
+    for (const i in form.value) {
+      console.log(i);
+      console.log(form.value[i]);
+      shofcaseData.value[i] = form.value[i]
+      form.value[i] = ''
+    }
     showResult.value = true;
   }
 }
@@ -75,7 +84,7 @@ onMounted(async () => {
       class="relative border border-blue-400 bg-slate-50 w-1/3 shadow-md p-4 rounded-xl"
     >
       <ul>
-        <li v-for="(item, key, i) of form" :key="i">{{ key }}: {{ item }}</li>
+        <li v-for="(item, key, i) of shofcaseData" :key="i">{{ key }}: {{ item }}</li>
       </ul>
       <div @click="() => showResult = false" class="cursor-pointer absolute text-base rounded-full bg-red-600  w-8 h-8 flex justify-center items-center -right-2 -top-2 text-white">
         X
@@ -95,6 +104,7 @@ onMounted(async () => {
           titleKey="username"
           :list="store.users"
           name="Select"
+          :keyItem="item.id"
         />
         <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
         </div>
@@ -108,6 +118,7 @@ onMounted(async () => {
           titleKey="title"
           :list="store.posts"
           name="Select"
+          :keyItem="item.id"
         />
         <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
         </div>
