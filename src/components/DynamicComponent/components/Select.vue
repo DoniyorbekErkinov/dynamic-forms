@@ -3,6 +3,7 @@
       <Listbox v-model="selectedItem">
         <div class="relative mt-1">
           <ListboxButton
+          @blur="$emit('blur', selectedItem)"
             class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
           >
             <span class="block truncate">{{ selectedItem[props.titleKey] || props.placeholder }}</span>
@@ -89,7 +90,7 @@
       default: ''
     }
   });
-  const emit = defineEmits(['itemSelected']);
+  const emit = defineEmits(['itemSelected', 'blur']);
   
   const selectedItem = ref('');
   watch(() => props.list, (newVal) => {

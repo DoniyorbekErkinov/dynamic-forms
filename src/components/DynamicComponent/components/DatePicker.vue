@@ -1,5 +1,5 @@
 <template>
-    <VueDatePicker :model-value="date" @update:model-value="handleDate" :enable-time-picker="false" :placeholder="props.placeholder"></VueDatePicker>
+    <VueDatePicker :model-value="date" @update:model-value="handleDate" :enable-time-picker="false" :placeholder="props.placeholder" @blur="$emit('blur', date)"></VueDatePicker>
   </template>
   
   <script setup>
@@ -14,7 +14,7 @@
     default: "",
   },
   })
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits(['update:modelValue', 'blur'])
   const date = ref()
   function handleDate(val) {
         date.value = val

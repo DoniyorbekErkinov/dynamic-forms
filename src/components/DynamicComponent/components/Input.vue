@@ -8,8 +8,8 @@
       @input="update"
       :type="props.type"
       :placeholder="props.placeholder"
-      format="dd.mm.yyyy"
       class="border-none focus:outline-none w-full"
+      @blur="$emit('blur', ($event.target).value)"
     />
     <label v-if="props.label" :for="props.label" class="">{{
       props.label
@@ -17,7 +17,7 @@
   </div>
 </template>
 <script setup>
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", 'blur']);
 const props = defineProps({
   placeholder: {
     type: String,

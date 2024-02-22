@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useMainStore } from "./store/index";
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 const store = useMainStore();
 const form = ref({
   username: "",
@@ -10,7 +12,27 @@ const form = ref({
   posts: "",
   birthDate: "",
 });
-
+const rules = {
+  username: {
+    required
+  },
+  lastname: {
+    required
+  },
+  firstname: {
+    required
+  },
+  users: {
+    required
+  },
+  posts: {
+    required
+  },
+  birthDate: {
+    required
+  },
+}
+const v$ = useVuelidate(rules, form.value)
 function handlePersonSelected(val, item) {
   if (item) {
     for (const i in form.value) {
@@ -35,7 +57,8 @@ onMounted(async () => {
   await store.getUsers();
 });
 
-const checking =ref(false)
+const checking = ref(false)
+
 </script>
 
 <template>
@@ -54,32 +77,43 @@ const checking =ref(false)
       class="w-full flex flex-col gap-6 p-8 border border-blue-300 rounded-md shadow bg-white mt-14 h-[600px]"
     >
       <div v-for="item in store.formList" :key="item.id">
-        <DynamicComponent
+        <div
+          v-if="item.compName === 'Select' && item.id === 'users'">
+          <DynamicComponent
+         @blur="v$[item.id].$touch"
           class="w-[300px]"
-          v-if="item.compName === 'Select' && item.id === 'users'"
           @itemSelected="(val) => handlePersonSelected(val, item)"
           placeholder="Foydalanuvchilar"
           titleKey="username"
           :list="store.users"
           name="Select"
         />
-        <DynamicComponent
+        <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
+        </div>
+        <div
+          v-if="item.compName === 'Select' && item.id === 'posts'">
+          <DynamicComponent
+         @blur="v$[item.id].$touch"
           class="w-[300px]"
-          v-if="item.compName === 'Select' && item.id === 'posts'"
           @itemSelected="(val) => handlePersonSelected(val, item)"
           placeholder="Postlar"
           titleKey="title"
           :list="store.posts"
           name="Select"
         />
-        <DynamicComponent
-          v-else
+        <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
+        </div>
+        <div v-if="item.compName === 'Input' || item.compName === 'DatePicker'">
+          <DynamicComponent          
+           @blur="v$[item.id].$touch"
           v-model="form[item.id]"
           class="!w-[300px]"
           :placeholder="item.placeholder"
           :type="item.compType"
           :name="item.compName"
         />
+        <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
+        </div>
       </div>
       <div>
         <button
