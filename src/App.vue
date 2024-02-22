@@ -4,6 +4,8 @@ import { useMainStore } from "./store/index";
 const store = useMainStore();
 const form = ref({
   username: "",
+  lastname: "",
+  firstname: "",
   users: "",
   posts: "",
   birthDate: "",

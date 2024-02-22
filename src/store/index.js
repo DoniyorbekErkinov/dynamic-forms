@@ -25,6 +25,22 @@ export const useMainStore = defineStore("Main", () => {
       valuekey: "username",
     },
     {
+      id: "firstname",
+      compName: "Input",
+      compType: "text", // if only compName is Input else empty string ('')
+      placeholder: "First name", // if compName is Input => string ('') else if it is select it is used as title key
+      value: "", // if it is input empty string, if it is select it must be array
+      valuekey: "firstname",
+    },
+    {
+      id: "lastname",
+      compName: "Input",
+      compType: "text", // if only compName is Input else empty string ('')
+      placeholder: "Last name", // if compName is Input => string ('') else if it is select it is used as title key
+      value: "", // if it is input empty string, if it is select it must be array
+      valuekey: "lastname",
+    },
+    {
       id: "users",
       compName: "Select",
       compType: "", // if only compName is Input else empty string ('')
