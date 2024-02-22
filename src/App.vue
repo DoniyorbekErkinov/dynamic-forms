@@ -1,0 +1,93 @@
+<script setup>
+import { ref, onMounted, watch } from "vue";
+import { useMainStore } from "./store/index";
+const store = useMainStore();
+const form = ref({
+  username: "",
+  users: "",
+  posts: "",
+  birthDate: "",
+});
+
+function handlePersonSelected(val, item) {
+  if (item) {
+    for (const i in form.value) {
+      if (i === item.id) {
+        console.log("entered");
+        form.value[i] = val;
+        if (item.id === "users") selectedUser.value = form.value[i];
+      }
+    }
+  }
+}
+const selectedUser = ref(null);
+watch(selectedUser, (newVal) => {
+  store.getPostByUserId(selectedUser.value);
+});
+
+const showResult = ref(false);
+function submit() {
+  showResult.value = true;
+}
+
+onMounted(async () => {
+  await store.getUsers();
+});
+</script>
+
+<template>
+  <div class="flex flex-col p-8 h-screen">
+    <div v-if="showResult"
+      class="relative border border-blue-400 bg-slate-50 w-1/3 shadow-md p-4 rounded-xl"
+    >
+      <ul>
+        <li v-for="(item, key, i) of form" :key="i">{{ key }}: {{ item }}</li>
+      </ul>
+      <div @click="() => showResult = false" class="cursor-pointer absolute text-base rounded-full bg-red-600  w-8 h-8 flex justify-center items-center -right-2 -top-2 text-white">
+        X
+      </div>
+    </div>
+    <div
+      class="w-full flex flex-col gap-6 p-8 border border-gray-300 mt-14 h-[600px]"
+    >
+      <div v-for="item in store.formList" :key="item.id">
+        <DynamicComponent
+          class="w-[300px]"
+          v-if="item.compName === 'Select' && item.id === 'users'"
+          @itemSelected="(val) => handlePersonSelected(val, item)"
+          placeholder="Foydalanuvchilar"
+          titleKey="username"
+          :list="store.users"
+          name="Select"
+        />
+        <DynamicComponent
+          class="w-[300px]"
+          v-if="item.compName === 'Select' && item.id === 'posts'"
+          @itemSelected="(val) => handlePersonSelected(val, item)"
+          placeholder="Postlar"
+          titleKey="title"
+          :list="store.posts"
+          name="Select"
+        />
+        <DynamicComponent
+          v-if="item.compName === 'Input'"
+          v-model="form[item.id]"
+          class="w-[200px]"
+          :placeholder="item.placeholder"
+          :type="item.compType"
+          :name="item.compName"
+        />
+      </div>
+      <div>
+        <button
+          @click="submit"
+          class="py-1 px-3 border border-blue-400 rounded-lg shadow-lg bg-white text-slate-900 font-medium"
+        >
+          Submut
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
