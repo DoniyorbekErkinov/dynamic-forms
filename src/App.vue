@@ -13,7 +13,6 @@ function handlePersonSelected(val, item) {
   if (item) {
     for (const i in form.value) {
       if (i === item.id) {
-        console.log("entered");
         form.value[i] = val;
         if (item.id === "users") selectedUser.value = form.value[i];
       }
@@ -36,7 +35,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col p-8 h-screen">
+  <div class="flex flex-col p-8 h-screen bg-slate-50">
     <div v-if="showResult"
       class="relative border border-blue-400 bg-slate-50 w-1/3 shadow-md p-4 rounded-xl"
     >
@@ -48,7 +47,7 @@ onMounted(async () => {
       </div>
     </div>
     <div
-      class="w-full flex flex-col gap-6 p-8 border border-gray-300 mt-14 h-[600px]"
+      class="w-full flex flex-col gap-6 p-8 border border-blue-300 rounded-md shadow bg-white mt-14 h-[600px]"
     >
       <div v-for="item in store.formList" :key="item.id">
         <DynamicComponent
