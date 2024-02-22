@@ -130,6 +130,7 @@ onMounted(async () => {
           :placeholder="item.placeholder"
           :type="item.compType"
           :name="item.compName"
+          :keyItem="form[item.id]"
         />
         <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
         </div>
