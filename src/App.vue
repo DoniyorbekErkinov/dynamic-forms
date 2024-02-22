@@ -62,12 +62,12 @@ async function submit() {
   const isFormCorrect = await v$.value.$validate()
   if (isFormCorrect) {
     for (const i in form.value) {
-      console.log(i);
-      console.log(form.value[i]);
       shofcaseData.value[i] = form.value[i]
       form.value[i] = ''
     }
+    store.posts = []
     showResult.value = true;
+    v$.value.$reset();  
   }
 }
 
@@ -104,7 +104,7 @@ onMounted(async () => {
           titleKey="username"
           :list="store.users"
           name="Select"
-          :keyItem="item.id"
+          :keyItem="form[item.id]"
         />
         <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
         </div>
@@ -118,7 +118,7 @@ onMounted(async () => {
           titleKey="title"
           :list="store.posts"
           name="Select"
-          :keyItem="item.id"
+          :keyItem="form[item.id]"
         />
         <div class="text-red-500" v-if="v$[item.id].$error">Name field has an error.</div>
         </div>

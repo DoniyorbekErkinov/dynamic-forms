@@ -96,10 +96,15 @@
   });
   const emit = defineEmits(['itemSelected', 'blur']);
   
-  const item = inject(props.keyItem);
-  const selectedItem = ref(item)
+  const selectedItem = ref('')
   watch(() => props.list, (newVal) => {
       selectedItem.value = ''
+    })
+    watch(() => props.keyItem, (newVal) => {
+      if (props.keyItem === '') {
+        selectedItem.value = ''
+    }
+      // selectedItem.value = ''
   })
   function selectItem(item) {
     selectedItem.value = item;
