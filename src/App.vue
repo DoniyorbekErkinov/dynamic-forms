@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, onBeforeMount } from "vue";
 import { useMainStore } from "./store/index";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
@@ -32,6 +32,12 @@ const rules = {
     required
   },
 }
+for (const i of store.formList) {
+    console.log(i);
+    if (!i.isRequired) {
+      rules[i.id] = {  }      
+    }
+  }
 const v$ = useVuelidate(rules, form.value)
 function handlePersonSelected(val, item) {
   if (item) {
@@ -49,15 +55,17 @@ watch(selectedUser, (newVal) => {
 });
 
 const showResult = ref(false);
-function submit() {
-  showResult.value = true;
+async function submit() {
+  const isFormCorrect = await v$.value.$validate()
+  if (isFormCorrect) {
+    showResult.value = true;
+  }
 }
 
 onMounted(async () => {
   await store.getUsers();
-});
+});  
 
-const checking = ref(false)
 
 </script>
 

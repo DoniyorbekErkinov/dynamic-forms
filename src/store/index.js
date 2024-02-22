@@ -23,6 +23,7 @@ export const useMainStore = defineStore("Main", () => {
       placeholder: "User name", // if compName is Input => string ('') else if it is select it is used as title key
       value: "", // if it is input empty string, if it is select it must be array
       valuekey: "username",
+      isRequired: true
     },
     {
       id: "firstname",
@@ -31,6 +32,7 @@ export const useMainStore = defineStore("Main", () => {
       placeholder: "First name", // if compName is Input => string ('') else if it is select it is used as title key
       value: "", // if it is input empty string, if it is select it must be array
       valuekey: "firstname",
+      isRequired: false
     },
     {
       id: "lastname",
@@ -39,6 +41,7 @@ export const useMainStore = defineStore("Main", () => {
       placeholder: "Last name", // if compName is Input => string ('') else if it is select it is used as title key
       value: "", // if it is input empty string, if it is select it must be array
       valuekey: "lastname",
+      isRequired: false
     },
     {
       id: "users",
@@ -47,6 +50,7 @@ export const useMainStore = defineStore("Main", () => {
       placeholder: "name", // if compName is Input => string ('') else if it is select it is used as title key
       value: [], // if it is input empty string, if it is select it must be array
       valuekey: "id",
+      isRequired: true
     },
     {
       id: "posts",
@@ -55,6 +59,7 @@ export const useMainStore = defineStore("Main", () => {
       placeholder: "name", // if compName is Input => string ('') else if it is select it is used as title key
       value: [], // if it is input empty string, if it is select it must be array
       valuekey: "id",
+      isRequired: true
     },
     {
       id: "birthDate",
@@ -63,6 +68,7 @@ export const useMainStore = defineStore("Main", () => {
       placeholder: "dd-mm-yyyy", // if compName is Input => string ('') else if it is select it is used as title key
       value: "", // if it is input empty string, if it is select it must be array
       valuekey: "",
+      isRequired: true
     },
   ]);
   return { users, posts, getUsers, getPostByUserId, formList };
